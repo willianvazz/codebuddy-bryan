@@ -1,0 +1,15 @@
+<template name="MainNavigation">
+	{{#if currentUser}}
+		<nav class="main-navigation">
+			<ul>
+				{{#if isInRole 'admin'}}
+					<li class="{{#if $eq isSelected 'admin'}}nav-item-selected{{/if}}"><a href="{{ pathFor 'admin' }}">Admin</a></li>
+					<!--<li class="{{#if $eq isSelected 'whoisonline'}}nav-item-selected{{/if}}"><a href="{{ pathFor 'whoisonline' }}">Who's Online</a></li>-->
+					<li class="{{#if $eq isSelected 'addcourse'}}nav-item-selected{{/if}}"><a href="{{ pathFor 'addcourse' }}">Add Course</a></li>
+				{{/if}}
+				<li class="{{#if $eq isSelected 'mycourses'}}nav-item-selected{{/if}}"><a href="{{ pathFor 'mycourses' }}">My Courses</a></li>
+				<li class="logout">Logout</li>
+			</ul>
+		</nav>
+	{{/if}}
+</template>

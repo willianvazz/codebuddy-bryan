@@ -1,0 +1,25 @@
+<template name="WhoIsOnline">
+    <h1 class="main-title">Who's Online</h1>
+    <div class="content-wrapper my-courses">
+		
+        <div class="table-users-wrapper">
+            <table class="table-users">
+                <tr>
+                    <th>NAME</th>
+                    <th class="middle-header">USERNAME</th>
+                    <th>ROLE(S)</th>
+                </tr>
+                <!-- {{getUsers}} -->
+                {{#each onlineUsers}}
+                    <tr>
+                        <td>{{profile.first_Name}} {{profile.last_Name}}</td>
+                        <td class="table-username">{{username}}</td>
+                        <td class="role">
+                            {{roles}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+	</div>
+</template>

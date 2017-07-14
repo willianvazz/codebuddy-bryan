@@ -1,0 +1,140 @@
+<template name="Course">
+	{{#if Template.subscriptionsReady}}
+	<div class="course-wrapper">
+		<div class="left">
+			{{#if isInRole 'admin'}}
+				<p class="add-day"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Day</p>
+				<form id="add-day-form">
+					<input class="text-input" type="text" name="addDay" id="addDay" placeholder="Type a day" required>
+				</form>
+			{{else}}
+				<p class="lectures">Lectures</p>
+			{{/if}}
+			<div class="days-wrapper">
+				{{#each days}}
+					<div class="day {{selected index}}"><p data-pos="{{index}}">{{title}}</p></div>
+				{{/each}}
+			</div>			
+		</div>
+		
+		<div class="middle">
+			<div class="course-title-wrapper">
+				<div class="course-title">					
+					<h1> {{course.name}}</h1>					
+					<p>
+						{{currentDay.title}}
+						{{#if isInRole 'admin'}}
+							{{#if currentDay}}
+							 	| <span class="edit-day">Edit</span> | <span class="delete-day">Delete</span>
+							{{/if}}
+						{{/if}}
+					</p>
+				</div>
+				{{#if isInRole 'admin'}}
+					{{#if currentDay}}
+						<div class="add-code">
+							<p>Add Code</p>
+						</div>
+					{{/if}}
+				{{/if}}
+			</div>
+
+			{{#if isInRole 'admin'}}
+				<form id="edit-day-form">
+					<input class="text-input" type="text" name="editDay" id="editDay" value="{{currentDay.title}}" required>
+				</form>
+
+				<div class="code-wrapper" id="add-code-form-wrapper">
+					<i class="fa fa-times" aria-hidden="true"></i>
+					<form id="add-code-form">
+						<p>Code Title</p>
+						<input class="text-input" type="text" name="codeTitle" id="codeTitle" required>
+						<p>Code</p>
+						<textarea rows="10" id="code" name="code" required></textarea>
+						<button type="submit" class="btn-submit">Add Code</button>
+					</form>
+				</div>
+			{{/if}}
+
+			<!--USING PRE-->
+			{{#each codeSnippets}}
+				<div class="code-wrapper">
+					{{#if editingSnippet id}}
+					<div class="snippet-edit">
+						<form id="edit-code-form" data-id="{{id}}">
+							<p>Code Title</p>
+							<input class="text-input" type="text" value="{{title}}" name="codeTitle" id="codeTitle" required>
+							<p>Code</p>
+							<textarea rows="10" id="code" value="{{code}}" name="code" required></textarea>
+							<div class="btns-wrapper">
+								<button class="btn-back cancel">Cancel</button>
+								<button type="submit" class="btn-update">Update Code</button>
+								<p class="delete-snippet btn-delete" data-id="{{id}}">Delete</p>
+							</div>
+						</form>
+					</div>
+					{{else}}
+					<div class="code-title">
+						<h2>{{title}}</h2>
+						{{#if isInRole 'admin'}}<i class="fa fa-pencil" aria-hidden="true" data-id="{{id}}"></i>{{/if}}
+					</div>
+					<div id="my-code-wrapper" class="code" data-language="javascript">
+<pre>{{code}}</pre>
+					</div>
+					{{/if}}
+				</div>
+			{{/each}}			
+			<!--END USING PRE-->
+		</div>
+		<div class="right {{#unless toggleChat}}fix-padding-chat{{/unless}}">
+			{{#if isInRole 'admin'}}
+				<div class="wrap-chat-people">
+					<i class="fa fa-comments" id="chat-toggle" aria-hidden="true"></i>
+					<div id="chat-helper-text">Click here to see chat</div>
+					<i class="fa fa-users" id="people-toggle" aria-hidden="true"></i>
+					<div id="people-helper-text">Click here to see who is online</div>
+				</div>
+			{{/if}}
+			<div id="chat">
+				<div class="chat-title-wrapper">
+					<h2>Chat</h2>
+					<i class="fa fa-comments" aria-hidden="true"></i>
+					{{#if isInRole 'admin'}}
+						<label class="switch">
+							<input type="checkbox" id="toggle-chat" checked="{{toggleChat}}">
+							<div class="slider round"></div>
+						</label>
+					{{/if}}
+				</div>
+				{{#if toggleChat}}
+					<div class="messages-wrapper">
+						{{#each course.messages}}
+						<p class="chat-message {{#if ownMessage username}} own-message {{/if}}">{{ first_name }}: {{ text }}</p>
+						{{/each}}
+					</div>
+					<form id="new-message-form" class="new-message">
+						<input type="text" name="message" id="message" placeholder="Type a message">
+					</form>
+				{{else}}
+					<div class="messages-wrapper">
+						<p class="">Chat has been disabled.</p>
+					</div>
+				{{/if}}
+			</div>
+			{{#if isInRole 'admin'}}
+				<div id="people">
+					<div class="chat-title-wrapper">
+						<h2>Who's Online</h2>
+						<!--<i class="fa fa-users" aria-hidden="true"></i>-->
+					</div>
+					<div class="online-list">
+						{{#each onlineUsers}}
+							<p><i class="fa fa-circle" aria-hidden="true"></i> {{name}}</p>
+						{{/each}}
+					</div>
+				</div>
+			{{/if}}
+		</div>
+	</div>
+	{{/if}}
+</template>

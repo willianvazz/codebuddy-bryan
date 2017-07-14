@@ -1,0 +1,24 @@
+<template name="MyCourses">
+	<h1 class="main-title">My Courses</h1>
+	<div class="wrap-search-course">
+		<form class="search-course">
+			<input class="search-input" type="text" name="text" placeholder="Search for a course">
+		</form>
+		<div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
+	</div>
+	{{#each courses}}
+		{{> CourseItem}}
+	{{/each}}
+</template>
+
+<template name="CourseItem">
+	<div class="content-wrapper my-courses">
+		<div class="my-courses-title-wrapper">
+			<a href="{{pathFor 'course' slug=slug}}"><h1>{{name}}</h1></a>
+			{{#if isInRole 'admin'}}
+				<a href="{{pathFor 'editcourse' slug=slug}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+			{{/if}}
+		</div>
+		<p>{{semester}} {{year}}</p>
+	</div>
+</template>

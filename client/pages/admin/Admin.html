@@ -1,0 +1,42 @@
+<template name="Admin">
+	{{#if isInRole 'admin'}}
+		<h1 class="main-title">Set Admin</h1>
+		<div class="content-wrapper">
+			<p>Search username</p>
+			<div class="wrap-search">
+				<form class="search-user">
+					<input class="search-input" type="text" name="text" placeholder="Type the person's username">
+				</form>
+				<div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
+			</div>
+			<div class="table-users-wrapper">
+				<table class="table-users">
+					<tr>
+						<th>NAME</th>
+						<th class="middle-header">USERNAME</th>
+						<th>ADMIN</th>
+					</tr>
+					{{#each getUsers}}
+						<tr>
+							<td>{{profile.first_Name}} {{profile.last_Name}}</td>
+							<td class="table-username">{{username}}</td>
+							<td class="table-admin">
+								{{#if currentUser}}
+									<p>-</p>
+								{{else}}
+									{{#if isAdmin}}
+										<p class="remove-admin toggle-admin">Remove Admin</p>
+									{{else}}
+										<p class="make-admin toggle-admin">Make Admin</p>
+									{{/if}}
+								{{/if}}
+							</td>
+						</tr>
+					{{/each}}
+				</table>
+			</div>
+		</div>
+	{{else}}
+		<h1 class="main-title">You have no access to this page.</h1>
+	{{/if}}
+</template>

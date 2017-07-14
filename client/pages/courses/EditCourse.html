@@ -1,0 +1,75 @@
+<template name="EditCourse">
+	{{#if isInRole 'admin'}}
+		<h1 class="main-title">Edit Course</h1>
+		<div class="content-wrapper">
+			<div class="wrap-add-course">
+				<form class="edit-course" id="form-add-course">
+					<label class="file-wrapper">
+						<p class="upload-csv">Import CSV file<span id="csv-helper"> (?)</span></p>
+						<div id="csv-helper-text">
+							<p>The CSV file must have a header (Username,Last Name,First Name,Section,). Each entry must be on a single line like the following example:</p>
+<pre><b>
+Username,Last Name,First Name,Section,
+aaa1234,LastName1,FirstName1,ISTE34101.2165,
+aaa1235,LastName2,FirstName2,ISTE34101.2165,
+aaa1236,LastName3,FirstName3,ISTE34101.2165,
+aaa1237,LastName4,FirstName4,ISTE34101.2165,
+...
+aaa1260,LastName27,FirstName27,ISTE34101.2165,
+aaa1261,LastName28,FirstName28,ISTE34101.2165,
+aaa1262,LastName29,FirstName29,ISTE34101.2165,
+</b></pre>
+						</div>
+						<input type="file" name="course" class="upload-csv" accept=".csv"/>
+					</label>
+					<p>Course Name</p>
+					<input class="text-input" type="text" name="name" id="name" data-id="{{course._id}}" value="{{course.name}}" required>
+					<div id="nameValidation">Course Name is required</div>
+					<p>Semester</p>
+					<select id="semester" name="semester">
+                        <option value="Spring">{{course.semester}}</option>
+						<option value="Spring">Spring</option>
+						<option value="Summer">Summer</option>
+						<option value="Fall">Fall</option>
+					</select>
+					<p>Year</p>
+					<input class="text-input" type="number" name="year" id="year" value="{{course.year}}" required>
+					<div id="yearValidation">Year is required</div>
+					<p>Add Students in the Course</p>
+					<div class="wrap-search">						
+						<input class="search-input search-input-add-course" type="text" name="text" placeholder="Type the student's username and press enter">						
+					</div>
+					<div class="search-icon"><i class="fa fa-search" aria-hidden="true"></i></div>
+					<div class="table-users-wrapper">
+						<table class="table-users">
+							<tr>
+								<th>NAME</th>
+								<th class="middle-header">USERNAME</th>
+								<th>REMOVE</th>
+							</tr>
+							<!-- {{getUsers}} -->
+							{{#each students}}
+								<tr>
+									<td>{{name}}</td>
+									<td class="table-username">{{username}}</td>
+									<td class="table-admin">
+										<p class="p-remove-student"><span class="remove-student " data-id="{{username}}">Remove Student</span></p>
+									</td>
+								</tr>
+							{{/each}}
+						</table>
+					</div>
+					<div class="btns-wrapper">
+						<button class="btn-back">Back</button>
+						<button type="submit" class="btn-update">Update Course</button>
+						<a href="/course/{{course.slug}}"><p class="btn-go-to-course">Go to Course</p></a>
+						<p class="btn-delete" data-id="{{course._id}}">Delete</p>
+					</div>
+				</form>
+			</div>
+			<div id="course-added-message">Course has been updated.</div>
+		</div>
+	{{else}}
+		<h1 class="main-title">You have no access to this page.</h1>
+	{{/if}}
+</template>
